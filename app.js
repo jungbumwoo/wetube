@@ -1,14 +1,15 @@
-import express from "express"; // const express = require('express')
+import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import videoRouter from "./routers/videoRouter";
 import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import routes from "./routers";
 const app = express();
 
-
+app.set("view engine", "pug");
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,8 +22,8 @@ const middleware = (req, res, next) => {
 이렇게 미드웨어가 res를 하면 중간에 끊김
 */
 
-app.use("/", globalRouter);
-app.use("/user", userRouter);
-app.use("/video", videoRouter);
+app.use(routes.home, globalRouter);
+app.use(routes.users, userRouter);
+app.use(routes.videos, videoRouter);
 
 export default app;
